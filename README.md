@@ -186,6 +186,14 @@ adb -s <tablet_ip:tablet_port> shell pm set-home-activity com.autoxing.delivery.
 
 If Android settings app closes: 10x click on "System info" on the skyfood app.
 
+## Audio
+
+Using adb, add the "local" folder to the robot's sdcard:
+
+```bash
+adb push local /mnt/sdcard/launcher/resource/local
+```
+
 ## Notes
 
 - The app runs in **landscape orientation** and is set as a **HOME launcher** (replaces the Android home screen), making the robot's tablet effectively a single-purpose kiosk device.
