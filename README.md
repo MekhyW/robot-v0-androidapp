@@ -168,7 +168,8 @@ apktool b car.394 -o car_skyfood.apk
 To sign the resulting APK with the included keystore:
 
 ```bash
-apksigner sign --ks mykey.keystore car_skyfood.apk # password is android
+keytool -genkey -v -keystore mykey.keystore -alias my-key-alias -keyalg RSA -keysize 2048 -validity 10000
+apksigner sign --ks mykey.keystore car_skyfood.apk # same password used to generate the key
 ```
 
 
