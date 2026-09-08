@@ -731,7 +731,7 @@
     if-eqz p1, :cond_2
 
     .line 219
-    invoke-direct {p0, v2}, Lcom/autoxing/delivery/controller/EventController;->setBrightLight(I)V
+    goto :goto_0
 
     goto :goto_0
 
