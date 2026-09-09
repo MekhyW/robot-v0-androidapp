@@ -4,19 +4,6 @@ An Android application powering **SkyFood** delivery robots. The app runs on a m
 
 
 
-## Table of Contents
-
-- [Overview](#overview)
-- [Features](#features)
-- [Project Structure](#project-structure)
-- [Tech Stack](#tech-stack)
-- [Permissions](#permissions)
-- [Build Information](#build-information)
-- [APK Tooling](#apk-tooling)
-- [Notes](#notes)
-
-
-
 ## Overview
 
 This repository contains the **decompiled source** of the SkyFood robot Android application (`car.394`), produced using [apktool](https://apktool.org/). The app is designed to run in **LAN_APP mode** using the AutoXing SDK, which means it connects to the robot's internal services over a local network rather than the cloud.
@@ -122,39 +109,6 @@ skyfood-v1-robot-androidapp/
 
 
 
-## Permissions
-
-The application requests the following Android permissions:
-
-| Permission | Purpose |
-|---|---|
-| `INTERNET` | Backend/SDK communication |
-| `ACCESS_WIFI_STATE` / `CHANGE_WIFI_STATE` | Automated Wi-Fi switching |
-| `ACCESS_NETWORK_STATE` | Connectivity monitoring |
-| `WRITE_SETTINGS` / `WRITE_SECURE_SETTINGS` | System configuration |
-| `BLUETOOTH` / `BLUETOOTH_ADMIN` | Bluetooth peripheral support |
-| `ACCESS_FINE_LOCATION` | Robot localization |
-| `CAMERA` | Camera access for the robot |
-| `SYSTEM_ALERT_WINDOW` | Overlay UI support |
-| `SET_TIME_ZONE` | Timezone auto-configuration |
-| `RECEIVE_BOOT_COMPLETED` | Auto-start after device reboot |
-| `READ/WRITE_EXTERNAL_STORAGE` / `MANAGE_EXTERNAL_STORAGE` | File and media management |
-| `REORDER_TASKS` | App task management |
-
-
-
-## Build Information
-
-| Property | Value |
-|---|---|
-| Application ID | `com.autoxing.delivery.skyfood` |
-| Version Name | `1.7.6` |
-| Version Code | `176` (0xb0) |
-| Build Type | `release` |
-| Compile SDK | API 32 (Android 12) |
-
-
-
 ## APK Tooling
 
 This repository contains the output of decompiling the APK with [apktool](https://apktool.org/).
@@ -168,7 +122,8 @@ apktool b car.394 -o car_skyfood.apk
 To sign the resulting APK with the included keystore:
 
 ```bash
-apksigner sign --ks mykey.keystore car_skyfood.apk # password is android
+keytool -genkey -v -keystore mykey.keystore -alias my-key-alias -keyalg RSA -keysize 2048 -validity 10000
+apksigner sign --ks mykey.keystore car_skyfood.apk # same password used to generate the key
 ```
 
 
@@ -180,19 +135,13 @@ System Settings -> Developer Options -> Enable Wireless Debugging
 ```bash
 adb pair <pair_ip:pair_port> <pairing_code> # if not already paired
 adb connect <tablet_ip:tablet_port>
+adb -s <tablet_ip:tablet_port> uninstall com.autoxing.delivery.skyfood
 adb -s <tablet_ip:tablet_port> install -r car_skyfood.apk
 adb -s <tablet_ip:tablet_port> shell pm set-home-activity com.autoxing.delivery.skyfood/.MainActivity
 ```
 
 If Android settings app closes: 10x click on "System info" on the skyfood app.
 
-## Audio
-
-Using adb, add the "local" folder to the robot's sdcard:
-
-```bash
-adb push local /mnt/sdcard/launcher/resource/local
-```
 
 ## Notes
 
